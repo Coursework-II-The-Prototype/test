@@ -28,19 +28,6 @@ jobs:
     - name: Install dependencies
       run: poetry install
 
-    - name: Commit changes if any
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        poetry run black . --check > /dev/null 2>&1 || {
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          poetry run black .
-          echo "Changes detected. Committing changes..."
-          git add .
-          git commit -m "Apply code formatting with Black"
-          git push origin HEAD
-        }
     - name: Lint with flake8
       run: poetry run lint
     - name: Test with pytest

@@ -35,11 +35,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git config --global user.name "github-actions"
-        git config --global user.email "actions@github.com"
-        if git diff --exit-code; then
+        if [ git diff --exit-code ]; then
           echo "No changes detected."
-        else:
+        else
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
           echo "Changes detected. Committing changes..."
           git add .
           git commit -m "Apply code formatting with Black"

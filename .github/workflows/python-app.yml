@@ -27,6 +27,24 @@ jobs:
         cache: 'poetry'
     - name: Install dependencies
       run: poetry install
+
+    - name: Run Black
+      run: poetry run black . --check 
+
+    - name: Commit changes if any
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "actions@github.com"
+        if git diff --exit-code; then
+          echo "No changes detected."
+        else:
+          echo "Changes detected. Committing changes..."
+          git add .
+          git commit -m "Apply code formatting with Black"
+          git push origin HEAD
+        fi
     - name: Lint with flake8
       run: poetry run lint
     - name: Test with pytest

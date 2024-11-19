@@ -28,18 +28,16 @@ jobs:
     - name: Install dependencies
       run: poetry install
 
-    - name: Run Black
-      run: poetry run black . --check 
-
     - name: Commit changes if any
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        if [ git diff --exit-code ]; then
+        if [ poetry run black . --check > /dev/null ]; then
           echo "No changes detected."
         else
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
+          poetry run black .
           echo "Changes detected. Committing changes..."
           git add .
           git commit -m "Apply code formatting with Black"

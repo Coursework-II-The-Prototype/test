@@ -1,4 +1,5 @@
-def  myfunc():
-    print ("this is awful")
+def myfunc():
+    print("this is great")
+
 
 myfunc()

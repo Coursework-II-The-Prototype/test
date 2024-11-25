@@ -1,5 +1,5 @@
 def myfunc():
-    print("this is great")
+    print("this is great2")
 
 
 myfunc()
